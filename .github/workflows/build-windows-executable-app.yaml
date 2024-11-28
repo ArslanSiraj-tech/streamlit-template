@@ -352,14 +352,14 @@ jobs:
         echo '                  ExeCommand="cmd.exe /c &quot;[AppSubFolder]${{ env.APP_NAME }}.bat&quot;" />' >> streamlit_exe.wxs
                  
                   # Run Bat file during uninstallation
-        echo '    <CustomAction Id="RemoveAllFile" Directory="AppSubFolder" Execute="deferred" Return="ignore"' >> streamlit_exe.wxs 
-        echo '                  ExeCommand="cmd.exe rd /s /q [AppSubFolder]" />' >> streamlit_exe.wxs
+        echo '    <CustomAction Id="RemoveBatFile" Directory="AppSubFolder" Execute="deferred" Return="ignore"' >> streamlit_exe.wxs 
+        echo '                  ExeCommand="cmd.exe /c del /f /q [AppSubFolder]${{ env.APP_NAME }}.bat&quot;" />' >> streamlit_exe.wxs
                       
                   # Add all Custom actions
         echo '    <InstallExecuteSequence>' >> streamlit_exe.wxs
         echo '      <Custom Action="CreateBatFile" After="InstallFiles">NOT REMOVE</Custom>' >> streamlit_exe.wxs
         echo '      <Custom Action="RunApp" Before="InstallFinalize">NOT REMOVE</Custom>' >> streamlit_exe.wxs
-        echo '      <Custom Action="RemoveAllFile" Before="RemoveFiles">REMOVE="ALL"</Custom>' >> streamlit_exe.wxs
+        echo '      <Custom Action="RemoveBatFile" Before="RemoveFiles">REMOVE="ALL"</Custom>' >> streamlit_exe.wxs
         echo '    </InstallExecuteSequence>' >> streamlit_exe.wxs
 
                   # Interface Option
