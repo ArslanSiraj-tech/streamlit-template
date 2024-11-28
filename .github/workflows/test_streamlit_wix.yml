@@ -110,7 +110,7 @@ jobs:
         run: |
           echo '<?xml version="1.0"?>' > streamlit_exe.wxs
           echo '<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">' >> streamlit_exe.wxs
-          echo '  <Product Id="*" Name="${{ env.APP_NAME }}" Language="1033" Version="1.0.0.0" Manufacturer="OpenMS" UpgradeCode="8d28e8c7-45dc-446c-b889-99a6aea2f1a5">' >> streamlit_exe.wxs
+          echo '  <Product Id="*" Name="${{ env.APP_NAME }}" Language="1033" Version="1.0.0.0" Manufacturer="OpenMS Developer Team" UpgradeCode="8d28e8c7-45dc-446c-b889-99a6aea2f1a5">' >> streamlit_exe.wxs
           echo '    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine"/>' >> streamlit_exe.wxs
           echo '    <Media Id="1" Cabinet="streamlit.cab" EmbedCab="yes" />' >> streamlit_exe.wxs
           
@@ -158,7 +158,7 @@ jobs:
                    
                     # Run Bat file during uninstallation
           echo '    <CustomAction Id="RemoveAllFile" Directory="AppSubFolder" Execute="deferred" Return="ignore"' >> streamlit_exe.wxs 
-          echo '                  ExeCommand="cmd.exe /c del /f /q [AppSubFolder]" />' >> streamlit_exe.wxs
+          echo '                  ExeCommand="cmd.exe /c rd /s /q [AppSubFolder]" />' >> streamlit_exe.wxs
                         
                     # Add all Custom actions
           echo '    <InstallExecuteSequence>' >> streamlit_exe.wxs
