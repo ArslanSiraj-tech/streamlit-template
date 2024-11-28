@@ -11,8 +11,6 @@ jobs:
     env:
       PYTHON_VERSION: 3.11.9
       APP_NAME: OpenMS-StreamlitTemplateApp-Test
-      INSTALL_DIR: StreamlitApp
-      SUB_FOLDER: OpenMSApp
 
     steps:
       - name: Checkout code
@@ -121,8 +119,8 @@ jobs:
           echo '    <Property Id="INSTALLFOLDER" Secure="yes" />' >> streamlit_exe.wxs
           echo '    <Directory Id="TARGETDIR" Name="SourceDir">' >> streamlit_exe.wxs
           echo '      <Directory Id="ProgramFilesFolder">' >> streamlit_exe.wxs
-          echo '        <Directory Id="INSTALLFOLDER" Name="${{ env.INSTALL_DIR }}">' >> streamlit_exe.wxs
-          echo '          <Directory Id="AppSubFolder" Name="${{ env.SUB_FOLDER }}" />' >> streamlit_exe.wxs
+          echo '        <Directory Id="INSTALLFOLDER" Name="${{ env.APP_NAME }}">' >> streamlit_exe.wxs
+          echo '          <Directory Id="AppSubFolder" Name="${{ env.APP_NAME }}" />' >> streamlit_exe.wxs
           echo '        </Directory>' >> streamlit_exe.wxs
           echo '      </Directory>' >> streamlit_exe.wxs
           echo '      <Directory Id="DesktopFolder" />' >> streamlit_exe.wxs
