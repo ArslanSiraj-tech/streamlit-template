@@ -175,7 +175,7 @@ jobs:
           echo '    </UI>' >> streamlit_exe.wxs
                         
                     # Provide license should exist in SourceDir folder
-          echo '    <WixVariable Id="WixUILicenseRtf" Value="SourceDir/dummy_license.rtf" />' >> streamlit_exe.wxs
+          echo '    <WixVariable Id="WixUILicenseRtf" Value="SourceDir/openms_license.rtf" />' >> streamlit_exe.wxs
           echo '  </Product>' >> streamlit_exe.wxs
           echo '</Wix>' >> streamlit_exe.wxs
           
