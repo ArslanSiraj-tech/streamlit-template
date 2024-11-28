@@ -186,6 +186,6 @@ jobs:
       - name: Archive build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.APP_NAME }}
+          name: OpenMS-App
           path: |
             ${{ env.APP_NAME }}.msi
