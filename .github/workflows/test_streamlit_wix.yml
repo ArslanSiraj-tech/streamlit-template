@@ -158,7 +158,7 @@ jobs:
                    
                     # Run Bat file during uninstallation
           echo '    <CustomAction Id="RemoveAllFile" Directory="AppSubFolder" Execute="deferred" Return="ignore"' >> streamlit_exe.wxs 
-          echo '                  ExeCommand="cmd.exe /c rd /s /q [AppSubFolder]" />' >> streamlit_exe.wxs
+          echo '                  ExeCommand="cmd.exe rd /s /q [AppSubFolder]" />' >> streamlit_exe.wxs
                         
                     # Add all Custom actions
           echo '    <InstallExecuteSequence>' >> streamlit_exe.wxs
