@@ -40,6 +40,11 @@ jobs:
       - name: Install Required Packages
         run: .\python-${{ env.PYTHON_VERSION }}\python -m pip install -r requirements.txt --no-warn-script-location
 
+      - name: Create .bat file
+        run: |
+          echo "@echo off" > ${{ env.APP_NAME }}.bat
+          echo "%CD%\python-${{ env.PYTHON_VERSION }}\python.exe -m streamlit run %CD%\app.py" > ${{ env.APP_NAME }}.bat
+          
       - name: Create All-in-one executable folder
         run: |
           mkdir streamlit_exe
@@ -53,6 +58,7 @@ jobs:
           cp app.py streamlit_exe
           cp settings.json streamlit_exe
           cp default-parameters.json streamlit_exe
+          cp ${{ env.APP_NAME }}.bat streamlit_exe
           
       - name: Generate Readme.txt
         run: |
@@ -141,8 +147,8 @@ jobs:
           echo '    <Icon Id="AppIcon" SourceFile="SourceDir/openms.ico" />' >> streamlit_exe.wxs
           
                     # Create Bat file during installation
-          echo '    <CustomAction Id="CreateBatFile" Directory="AppSubFolder" Execute="deferred" Return="check" Impersonate="no"' >> streamlit_exe.wxs
-          echo '                  ExeCommand="cmd.exe /c echo @echo off &gt; [AppSubFolder]${{ env.APP_NAME }}.bat &amp;&amp; echo [AppSubFolder]python-${{ env.PYTHON_VERSION }}\\python.exe -m streamlit run [AppSubFolder]app.py &gt;&gt; [AppSubFolder]${{ env.APP_NAME }}.bat" />' >> streamlit_exe.wxs
+          #echo '    <CustomAction Id="CreateBatFile" Directory="AppSubFolder" Execute="deferred" Return="check" Impersonate="no"' >> streamlit_exe.wxs
+          #echo '                  ExeCommand="cmd.exe /c echo @echo off &gt; [AppSubFolder]${{ env.APP_NAME }}.bat &amp;&amp; echo [AppSubFolder]python-${{ env.PYTHON_VERSION }}\\python.exe -m streamlit run [AppSubFolder]app.py &gt;&gt; [AppSubFolder]${{ env.APP_NAME }}.bat" />' >> streamlit_exe.wxs
                         
                     # Run app directly after installation
           #echo '    <CustomAction Id="RunApp" Directory="AppSubFolder" Execute="deferred" Return="asyncNoWait"' >> streamlit_exe.wxs
@@ -153,11 +159,11 @@ jobs:
           #echo '                  ExeCommand="cmd.exe /c del /f /q [AppSubFolder]${{ env.APP_NAME }}.bat&quot;" />' >> streamlit_exe.wxs
                         
                     # Add all Custom actions
-          echo '    <InstallExecuteSequence>' >> streamlit_exe.wxs
-          echo '      <Custom Action="CreateBatFile" After="InstallFiles">NOT REMOVE</Custom>' >> streamlit_exe.wxs
+          #echo '    <InstallExecuteSequence>' >> streamlit_exe.wxs
+          #echo '      <Custom Action="CreateBatFile" After="InstallFiles">NOT REMOVE</Custom>' >> streamlit_exe.wxs
           #echo '      <Custom Action="RunApp" Before="InstallFinalize">NOT REMOVE</Custom>' >> streamlit_exe.wxs
           #echo '      <Custom Action="RemoveBatFile" Before="RemoveFiles">REMOVE="ALL"</Custom>' >> streamlit_exe.wxs
-          echo '    </InstallExecuteSequence>' >> streamlit_exe.wxs
+          #echo '    </InstallExecuteSequence>' >> streamlit_exe.wxs
 
                     # Interface options
           echo '    <UI>' >> streamlit_exe.wxs
