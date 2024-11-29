@@ -107,9 +107,11 @@ jobs:
           echo '      <Directory Id="ProgramFilesFolder">' >> streamlit_exe.wxs  # Using LocalAppData
           echo '        <Directory Id="INSTALLFOLDER" Name="${{ env.APP_NAME }}">' >> streamlit_exe.wxs
           echo '          <Directory Id="AppSubFolder" Name="${{ env.APP_NAME }}" />' >> streamlit_exe.wxs  # App name as subfolder
-          echo '            <CreateFolder>' >> streamlit_exe.wxs
-          echo '              <Permission User="Everyone" GenericAll="yes" />' >> streamlit_exe.wxs
-          echo '            </CreateFolder>' >> streamlit_exe.wxs
+          echo '            <Component Id="CreateAppFolder" Guid="95dbfa06-d36a-427f-995c-e87769ac2e59">' >> streamlit_exe.wxs
+          echo '               <CreateFolder>' >> streamlit_exe.wxs
+          echo '                 <Permission User="Everyone" GenericAll="yes" />' >> streamlit_exe.wxs
+          echo '               </CreateFolder>' >> streamlit_exe.wxs
+          echo '             </Component>' >> streamlit_exe.wxs
           echo '          </Directory>' >> streamlit_exe.wxs
           echo '        </Directory>' >> streamlit_exe.wxs
           echo '      <Directory Id="DesktopFolder" />' >> streamlit_exe.wxs
@@ -118,6 +120,7 @@ jobs:
                     # Add components 
           echo '    <Feature Id="MainFeature" Title="Main Application" Level="1">' >> streamlit_exe.wxs
           echo '      <ComponentGroupRef Id="StreamlitExeFiles" />' >> streamlit_exe.wxs
+          echo '      <ComponentRef Id="CreateAppFolder" />' >> streamlit_exe.wxs
           echo '      <ComponentRef Id="DesktopShortcutComponent" />' >> streamlit_exe.wxs
           echo '      <ComponentRef Id="InstallDirShortcutComponent" />' >> streamlit_exe.wxs
           echo '    </Feature>' >> streamlit_exe.wxs
