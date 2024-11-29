@@ -141,7 +141,7 @@ jobs:
           echo '    <Icon Id="AppIcon" SourceFile="SourceDir/openms.ico" />' >> streamlit_exe.wxs
           
                     # Create Bat file during installation
-          echo '    <CustomAction Id="CreateBatFile" Directory="INSTALLFOLDER" Execute="deferred" Return="check"' >> streamlit_exe.wxs
+          echo '    <CustomAction Id="CreateBatFile" Directory="INSTALLFOLDER" Execute="deferred" Return="check" Impersonate="no"' >> streamlit_exe.wxs
           echo '                  ExeCommand="cmd.exe /c echo @echo off &gt; [INSTALLFOLDER]${{ env.APP_NAME }}.bat &amp;&amp; echo [AppSubFolder]python-${{ env.PYTHON_VERSION }}\\python.exe -m streamlit run [AppSubFolder]app.py &gt;&gt; [AppSubFolder]${{ env.APP_NAME }}.bat" />' >> streamlit_exe.wxs
                         
                     # Run app directly after installation
