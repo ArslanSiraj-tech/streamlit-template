@@ -164,12 +164,15 @@ jobs:
           echo '    <WixVariable Id="WixUILicenseRtf" Value="SourceDir/openms_license.rtf" />' >> streamlit_exe.wxs
           echo '  </Product>' >> streamlit_exe.wxs
           echo '</Wix>' >> streamlit_exe.wxs
-          
-      - name: Build msi
+
+      - name: Build .wixobj file with candle.exe
         run: |
           ./wix/candle.exe streamlit_exe.wxs streamlit_exe_files.wxs
+          
+      - name: Link .wixobj file into .msi with light.exe
+        run: |
           ./wix/light.exe -ext WixUIExtension -sice:ICE60 -o ${{ env.APP_NAME }}.msi streamlit_exe_files.wixobj streamlit_exe.wixobj
-    
+
       - name: Archive build artifacts
         uses: actions/upload-artifact@v4
         with:
