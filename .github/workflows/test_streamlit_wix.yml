@@ -151,19 +151,19 @@ jobs:
           #echo '                  ExeCommand="cmd.exe /c echo @echo off &gt; [AppSubFolder]${{ env.APP_NAME }}.bat &amp;&amp; echo [AppSubFolder]python-${{ env.PYTHON_VERSION }}\\python.exe -m streamlit run [AppSubFolder]app.py &gt;&gt; [AppSubFolder]${{ env.APP_NAME }}.bat" />' >> streamlit_exe.wxs
                         
                     # Run app directly after installation
-          #echo '    <CustomAction Id="RunApp" Directory="AppSubFolder" Execute="deferred" Return="asyncNoWait"' >> streamlit_exe.wxs
-          #echo '                  ExeCommand="cmd.exe /c &quot;[AppSubFolder]${{ env.APP_NAME }}.bat&quot;" />' >> streamlit_exe.wxs
+          echo '    <CustomAction Id="RunApp" Directory="AppSubFolder" Execute="deferred" Return="asyncNoWait" Impersonate="no"' >> streamlit_exe.wxs
+          echo '                  ExeCommand="cmd.exe /c &quot;[AppSubFolder]${{ env.APP_NAME }}.bat&quot;" />' >> streamlit_exe.wxs
                    
                     # Run Bat file during uninstallation
           #echo '    <CustomAction Id="RemoveBatFile" Directory="AppSubFolder" Execute="deferred" Return="ignore"' >> streamlit_exe.wxs 
           #echo '                  ExeCommand="cmd.exe /c del /f /q [AppSubFolder]${{ env.APP_NAME }}.bat&quot;" />' >> streamlit_exe.wxs
                         
                     # Add all Custom actions
-          #echo '    <InstallExecuteSequence>' >> streamlit_exe.wxs
+          echo '    <InstallExecuteSequence>' >> streamlit_exe.wxs
           #echo '      <Custom Action="CreateBatFile" After="InstallFiles">NOT REMOVE</Custom>' >> streamlit_exe.wxs
-          #echo '      <Custom Action="RunApp" Before="InstallFinalize">NOT REMOVE</Custom>' >> streamlit_exe.wxs
+          echo '      <Custom Action="RunApp" Before="InstallFinalize">NOT REMOVE</Custom>' >> streamlit_exe.wxs
           #echo '      <Custom Action="RemoveBatFile" Before="RemoveFiles">REMOVE="ALL"</Custom>' >> streamlit_exe.wxs
-          #echo '    </InstallExecuteSequence>' >> streamlit_exe.wxs
+          echo '    </InstallExecuteSequence>' >> streamlit_exe.wxs
 
                     # Interface options
           echo '    <UI>' >> streamlit_exe.wxs
