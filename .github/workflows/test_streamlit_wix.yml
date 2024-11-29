@@ -43,7 +43,7 @@ jobs:
       - name: Create .bat file
         run: |
           echo "@echo off" > ${{ env.APP_NAME }}.bat
-          echo "%CD%\python-${{ env.PYTHON_VERSION }}\python.exe -m streamlit run %CD%\app.py" > ${{ env.APP_NAME }}.bat
+          echo '.\\python-${{ env.PYTHON_VERSION }}\\python -m streamlit run app.py local' > ${{ env.APP_NAME }}.bat
           
       - name: Create All-in-one executable folder
         run: |
