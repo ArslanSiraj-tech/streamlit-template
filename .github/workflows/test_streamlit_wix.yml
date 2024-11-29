@@ -97,8 +97,8 @@ jobs:
         run: |
           echo '<?xml version="1.0"?>' > streamlit_exe.wxs
           echo '<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">' >> streamlit_exe.wxs
-          echo '  <Product Id="*" Name="${{ env.APP_NAME }}" Language="1033" Version="1.0.0.0" Manufacturer="OpenMS Developer Team" UpgradeCode="8d28e8c7-45dc-446c-b889-99a6aea2f1a5">' >> streamlit_exe.wxs
-          echo '    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" InstallPrivileges="elevated" AdminImage="yes"/>' >> streamlit_exe.wxs
+          echo '  <Product Id="8434b940-a943-40f1-ab1f-4db3feedb4ba" Name="${{ env.APP_NAME }}" Language="1033" Version="1.0.0.0" Language='1033' Codepage='1252' Manufacturer="OpenMS Developer Team" UpgradeCode="8d28e8c7-45dc-446c-b889-99a6aea2f1a5">' >> streamlit_exe.wxs
+          echo '    <Package Id='*' Keyword=Description="${{ env.APP_NAME }} Installer" Description= "OpenMS Web APP" InstallerVersion="300" Language='1033' Compressed="yes" SummaryCodePage='1252' InstallPrivileges="elevated" Platform="x64"/>' >> streamlit_exe.wxs
           echo '    <Media Id="1" Cabinet="streamlit.cab" EmbedCab="yes" />' >> streamlit_exe.wxs
           
                     # Folder structure
