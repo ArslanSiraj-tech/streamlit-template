@@ -103,11 +103,15 @@ jobs:
           
                     # Folder structure
           echo '    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />' >> streamlit_exe.wxs
-          echo '    <Property Id="INSTALLFOLDER" Value="[LocalAppDataFolder]${{ env.APP_NAME }}" Secure="yes" />' >> streamlit_exe.wxs
           echo '    <Directory Id="TARGETDIR" Name="SourceDir">' >> streamlit_exe.wxs
-          echo '      <Directory Id="LocalAppDataFolder" Name="LocalAppData">' >> streamlit_exe.wxs  # Using LocalAppData
-          echo '        <Directory Id="AppSubFolder" Name="${{ env.APP_NAME }}" />' >> streamlit_exe.wxs  # App name as subfolder
-          echo '      </Directory>' >> streamlit_exe.wxs
+          echo '      <Directory Id="ProgramFilesFolder">' >> streamlit_exe.wxs  # Using LocalAppData
+          echo '        <Directory Id="INSTALLFOLDER" Name="${{ env.APP_NAME }}">' >> streamlit_exe.wxs
+          echo '          <Directory Id="AppSubFolder" Name="${{ env.APP_NAME }}" />' >> streamlit_exe.wxs  # App name as subfolder
+          echo '            <CreateFolder>' >> streamlit_exe.wxs
+          echo '              <Permission User="Everyone" GenericAll="yes" />' >> streamlit_exe.wxs
+          echo '            </CreateFolder>' >> streamlit_exe.wxs
+          echo '          </Directory>' >> streamlit_exe.wxs
+          echo '        </Directory>' >> streamlit_exe.wxs
           echo '      <Directory Id="DesktopFolder" />' >> streamlit_exe.wxs
           echo '    </Directory>' >> streamlit_exe.wxs
           
