@@ -155,9 +155,23 @@ jobs:
           echo '    </InstallExecuteSequence>' >> streamlit_exe.wxs
 
                     # Interface options
+          #echo '    <UI>' >> streamlit_exe.wxs
+          #echo '      <UIRef Id="WixUI_InstallDir" />' >> streamlit_exe.wxs
+          #echo '      <UIRef Id="WixUI_ErrorProgressText" />' >> streamlit_exe.wxs
+          #echo '    </UI>' >> streamlit_exe.wxs
+
+          # Detailed Progress UI
           echo '    <UI>' >> streamlit_exe.wxs
           echo '      <UIRef Id="WixUI_InstallDir" />' >> streamlit_exe.wxs
-          echo '      <UIRef Id="WixUI_ErrorProgressText" />' >> streamlit_exe.wxs
+          echo '      <Dialog Id="ProgressDlg" Width="370" Height="270" Title="[ProductName] Setup">' >> streamlit_exe.wxs
+          echo '        <Control Id="ActionText" Type="Text" X="50" Y="120" Width="300" Height="15">' >> streamlit_exe.wxs
+          echo '          <Subscribe Event="ActionText" Attribute="Text" />' >> streamlit_exe.wxs
+          echo '        </Control>' >> streamlit_exe.wxs
+          echo '        <Control Id="ActionData" Type="Text" X="50" Y="150" Width="300" Height="40">' >> streamlit_exe.wxs
+          echo '          <Subscribe Event="ActionData" Attribute="Text" />' >> streamlit_exe.wxs
+          echo '        </Control>' >> streamlit_exe.wxs
+          echo '        <Control Id="ProgressBar" Type="ProgressBar" X="50" Y="200" Width="270" Height="15" />' >> streamlit_exe.wxs
+          echo '      </Dialog>' >> streamlit_exe.wxs
           echo '    </UI>' >> streamlit_exe.wxs
                         
                     # Provide license should exist in SourceDir folder
