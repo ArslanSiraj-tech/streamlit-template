@@ -160,10 +160,10 @@ jobs:
               </InstallExecuteSequence>
           
               <!-- Interface options -->
-              <!-- <UI>
+              <UI>
                    <UIRef Id="WixUI_InstallDir" />
                    <UIRef Id="WixUI_ErrorProgressText" />
-              </UI> -->
+              </UI> 
           
               <!-- Provide license; it should exist in the SourceDir folder -->
               <WixVariable Id="WixUILicenseRtf" Value="SourceDir/openms_license.rtf" />
