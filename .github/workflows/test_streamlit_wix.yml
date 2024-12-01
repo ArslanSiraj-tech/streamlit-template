@@ -1,4 +1,4 @@
-name: **************************************************Test streamlit executable for Windows with embeddable python
+name: ++++++ Test streamlit executable for Windows with embeddable python
 on: 
   push:
     branches: [ "main" ]
