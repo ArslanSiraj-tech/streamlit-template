@@ -1,4 +1,4 @@
-name: ++++++ Test streamlit executable for Windows with embeddable python
+name: ++++++++ Test streamlit executable for Windows with embeddable python
 on: 
   push:
     branches: [ "main" ]
@@ -93,10 +93,10 @@ jobs:
         run: |
           ./wix/heat.exe dir streamlit_exe -gg -sfrag -sreg -srd -template component -cg StreamlitExeFiles -dr AppSubFolder -out streamlit_exe_files.wxs
       
-      - name: Create VBScript file
+      - name: Generate VBScript file
         shell: bash
         run: |
-          cat <<EOF > ShowMessage.vbs
+          cat <<EOF > ShowSuccessMessage.vbs
           MsgBox "The ${{ env.APP_NAME }} app is successfully installed.", vbInformation, "Installation Complete"
           EOF
 
@@ -162,14 +162,14 @@ jobs:
                             ExeCommand="cmd.exe /c &quot;[AppSubFolder]${{ env.APP_NAME }}.bat&quot;" /> -->
               
               <!-- Custom Action to Show Success Message -->
-              <Binary Id="ShowMessageScript" SourceFile="SourceDir/ShowMessage.vbs" />
+              <Binary Id="ShowMessageScript" SourceFile="SourceDir/ShowSuccessMessage.vbs" />
               <CustomAction Id="ShowSuccessMessage" BinaryKey="ShowMessageScript" VBScriptCall="" Execute="immediate" Return="check" />
           
               <!-- Add all Custom Actions -->
               <InstallExecuteSequence>
                 <!-- Custom action display success message -->
                 <Custom Action="ShowSuccessMessage" After="InstallFinalize">NOT Installed</Custom>
-                <!-- Run app directly run after installation -->
+                <!-- Run app directly after installation -->
                 <!-- <Custom Action="RunApp" Before="InstallFinalize">NOT REMOVE</Custom> -->
               </InstallExecuteSequence>
           
