@@ -153,9 +153,19 @@ jobs:
               <!-- Run app directly after installation -->
               <CustomAction Id="RunApp" Directory="AppSubFolder" Execute="deferred" Return="asyncNoWait" Impersonate="no"
                             ExeCommand="cmd.exe /c &quot;[AppSubFolder]${{ env.APP_NAME }}.bat&quot;" />
+
+               <!-- Custom Action to Show Success Message -->
+              <CustomAction Id="ShowSuccessMessage" Execute="immediate" Return="check">
+                <![CDATA[
+                <WixCustomAction xmlns="http://schemas.microsoft.com/wix/2006/wi" >
+                  MsgBox "The app is successfully installed.", vbInformation, "Installation Complete"
+                </WixCustomAction>
+                ]]>
+              </CustomAction>
           
               <!-- Add all Custom Actions -->
               <InstallExecuteSequence>
+                <Custom Action="ShowSuccessMessage" After="InstallFinalize">NOT REMOVE</Custom>
                 <Custom Action="RunApp" Before="InstallFinalize">NOT REMOVE</Custom>
               </InstallExecuteSequence>
           
