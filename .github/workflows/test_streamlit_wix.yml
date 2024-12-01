@@ -60,6 +60,7 @@ jobs:
           cp ${{ env.APP_NAME }}.bat streamlit_exe
           
       - name: Generate Readme.txt
+        shell: bash
         run: |
           cat <<EOF > streamlit_exe/Readme.txt
           Welcome to ${{ env.APP_NAME }}!
@@ -101,6 +102,7 @@ jobs:
           cp assets/openms.ico SourceDir
           
       - name: Generate WiX XML file
+        shell: bash
         run: |
           cat <<EOF > streamlit_exe.wxs
           <?xml version="1.0"?>
