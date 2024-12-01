@@ -1,4 +1,4 @@
-name: ++++++++++++++ Test streamlit executable for Windows with embeddable python
+name: **************************************************Test streamlit executable for Windows with embeddable python
 on: 
   push:
     branches: [ "main" ]
@@ -43,13 +43,6 @@ jobs:
       - name: Create .bat file
         run: |
           echo ".\\python-${{ env.PYTHON_VERSION }}\\python -m streamlit run app.py local" > ${{ env.APP_NAME }}.bat
-
-      - name: Create VBScript file
-        shell: bash
-        run: |
-          cat <<EOF > ShowMessage.vbs
-          MsgBox "The app is successfully installed.", vbInformation, "Installation Complete"
-          EOF
           
       - name: Create All-in-one executable folder
         run: |
@@ -70,7 +63,7 @@ jobs:
         shell: bash
         run: |
           cat <<EOF > streamlit_exe/Readme.txt
-          Welcome to ${{ env.APP_NAME }}!
+          Welcome to ${{ env.APP_NAME }} app!
 
           To launch the application:
           1. Navigate to the installation directory.
@@ -86,7 +79,7 @@ jobs:
           - Join our Discord server for support and community discussions: https://discord.com/invite/4TAGhqJ7s5
           - Contribute or stay updated with the latest OpenMS web app developments on GitHub: https://github.com/OpenMS/streamlit-template
           - Visit our website for more information: https://openms.de/
-
+          
           Thank you for using ${{ env.APP_NAME }}!
           EOF
           
@@ -100,11 +93,17 @@ jobs:
         run: |
           ./wix/heat.exe dir streamlit_exe -gg -sfrag -sreg -srd -template component -cg StreamlitExeFiles -dr AppSubFolder -out streamlit_exe_files.wxs
       
+      - name: Create VBScript file
+        shell: bash
+        run: |
+          cat <<EOF > ShowMessage.vbs
+          MsgBox "The ${{ env.APP_NAME }} app is successfully installed.", vbInformation, "Installation Complete"
+          EOF
+
       - name: Prepare SourceDir
         run: |
           mkdir SourceDir
           mv streamlit_exe/* SourceDir
-          cp ShowMessage.vbs SourceDir
           cp assets/openms_license.rtf SourceDir
           # Logo of app
           cp assets/openms.ico SourceDir
@@ -122,9 +121,9 @@ jobs:
               <!-- Folder structure -->
               <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
               <Directory Id="TARGETDIR" Name="SourceDir">
-                <Directory Id="ProgramFilesFolder"> <!-- Using LocalAppData -->
+                <Directory Id="ProgramFilesFolder"> 
                   <Directory Id="INSTALLFOLDER" Name="${{ env.APP_NAME }}">
-                    <Directory Id="AppSubFolder" Name="${{ env.APP_NAME }}" /> <!-- App name as subfolder -->
+                    <Directory Id="AppSubFolder" Name="${{ env.APP_NAME }}" /> 
                     <Component Id="CreateAppFolder" Guid="95dbfa06-d36a-427f-995c-e87769ac2e59">
                       <CreateFolder>
                         <Permission User="Everyone" GenericAll="yes" />
@@ -159,23 +158,25 @@ jobs:
               <Icon Id="AppIcon" SourceFile="SourceDir/openms.ico" />
           
               <!-- Run app directly after installation -->
-              <CustomAction Id="RunApp" Directory="AppSubFolder" Execute="deferred" Return="asyncNoWait" Impersonate="no"
-                            ExeCommand="cmd.exe /c &quot;[AppSubFolder]${{ env.APP_NAME }}.bat&quot;" />
-
+              <!-- <CustomAction Id="RunApp" Directory="AppSubFolder" Execute="deferred" Return="asyncNoWait" Impersonate="no"
+                            ExeCommand="cmd.exe /c &quot;[AppSubFolder]${{ env.APP_NAME }}.bat&quot;" /> -->
+              
               <!-- Custom Action to Show Success Message -->
               <Binary Id="ShowMessageScript" SourceFile="SourceDir/ShowMessage.vbs" />
               <CustomAction Id="ShowSuccessMessage" BinaryKey="ShowMessageScript" VBScriptCall="" Execute="immediate" Return="check" />
           
               <!-- Add all Custom Actions -->
               <InstallExecuteSequence>
+                <!-- Custom action display success message -->
                 <Custom Action="ShowSuccessMessage" After="InstallFinalize">NOT Installed</Custom>
-                <Custom Action="RunApp" Before="InstallFinalize">NOT REMOVE</Custom>
+                <!-- Run app directly run after installation -->
+                <!-- <Custom Action="RunApp" Before="InstallFinalize">NOT REMOVE</Custom> -->
               </InstallExecuteSequence>
           
               <!-- Interface options -->
               <UI>
-                   <UIRef Id="WixUI_InstallDir" />
-                   <UIRef Id="WixUI_ErrorProgressText" />
+                    <UIRef Id="WixUI_InstallDir" />
+                    <UIRef Id="WixUI_ErrorProgressText" />
               </UI> 
           
               <!-- Provide license; it should exist in the SourceDir folder -->
