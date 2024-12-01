@@ -43,6 +43,13 @@ jobs:
       - name: Create .bat file
         run: |
           echo ".\\python-${{ env.PYTHON_VERSION }}\\python -m streamlit run app.py local" > ${{ env.APP_NAME }}.bat
+
+      - name: Create VBScript file
+        shell: bash
+        run: |
+          cat <<EOF > ShowMessage.vbs
+          MsgBox "The app is successfully installed.", vbInformation, "Installation Complete"
+          EOF
           
       - name: Create All-in-one executable folder
         run: |
@@ -97,6 +104,7 @@ jobs:
         run: |
           mkdir SourceDir
           mv streamlit_exe/* SourceDir
+          cp ShowMessage.vbs SourceDir
           cp assets/openms_license.rtf SourceDir
           # Logo of app
           cp assets/openms.ico SourceDir
@@ -154,18 +162,13 @@ jobs:
               <CustomAction Id="RunApp" Directory="AppSubFolder" Execute="deferred" Return="asyncNoWait" Impersonate="no"
                             ExeCommand="cmd.exe /c &quot;[AppSubFolder]${{ env.APP_NAME }}.bat&quot;" />
 
-               <!-- Custom Action to Show Success Message -->
-              <CustomAction Id="ShowSuccessMessage" Execute="immediate" Return="check">
-                <![CDATA[
-                <WixCustomAction xmlns="http://schemas.microsoft.com/wix/2006/wi" >
-                  MsgBox "The app is successfully installed.", vbInformation, "Installation Complete"
-                </WixCustomAction>
-                ]]>
-              </CustomAction>
+              <!-- Custom Action to Show Success Message -->
+              <Binary Id="ShowMessageScript" SourceFile="SourceDir/ShowMessage.vbs" />
+              <CustomAction Id="ShowSuccessMessage" BinaryKey="ShowMessageScript" VBScriptCall="" Execute="immediate" Return="check" />
           
               <!-- Add all Custom Actions -->
               <InstallExecuteSequence>
-                <Custom Action="ShowSuccessMessage" After="InstallFinalize">NOT REMOVE</Custom>
+                <Custom Action="ShowSuccessMessage" After="InstallFinalize">NOT Installed</Custom>
                 <Custom Action="RunApp" Before="InstallFinalize">NOT REMOVE</Custom>
               </InstallExecuteSequence>
           
